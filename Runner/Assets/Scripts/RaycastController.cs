@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class RaycastController : MonoBehaviour 
 {
-    private const float distanceBetweenRays = 0.25f;
+    private const float distanceBetweenRays = 0.2f;
 
     public LayerMask collisionMask;
     // number of rays
@@ -36,7 +36,7 @@ public class RaycastController : MonoBehaviour
     public void UpdateRaycastOrigins()
     {
         Bounds bounds = collider.bounds;
-        bounds.Expand(skinWidth * -2);
+        bounds.Expand(skinWidth * 0.5f);
 
         raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
         raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
