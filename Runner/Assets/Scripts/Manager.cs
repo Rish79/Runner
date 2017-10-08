@@ -5,6 +5,8 @@ using UnityEngine;
 public class Manager : MonoBehaviour {
 
     [SerializeField] private GameObject m_canvas;
+    [SerializeField] private GameObject m_canvasTwo;
+
     [SerializeField] private GameObject m_finishLine;
 
     public int m_playerShopCount = 0;
@@ -26,8 +28,14 @@ public class Manager : MonoBehaviour {
     {
 	    if(m_playerShopCount >= 4)
         {
-            m_activateItemPlacement = true;
+            //m_activateItemPlacement = true;
             m_canvas.SetActive(false);
+            m_canvasTwo.SetActive(true);
+
+            foreach (GameObject i in m_finishLineScript.m_players)
+            {
+                i.GetComponent<PlayerInput>().m_isPlacing = true;
+            }
 
             m_stopPlayerShop = true;
             m_playerShopCount = 0;
@@ -45,6 +53,7 @@ public class Manager : MonoBehaviour {
         
         if(m_playerPlacementCount >= 4)
         {
+            m_canvasTwo.SetActive(false);
             m_activatePlayerInput = true;
             m_playerPlacementCount = 0;
         }

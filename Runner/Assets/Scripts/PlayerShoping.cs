@@ -11,7 +11,7 @@ public class PlayerShoping : MonoBehaviour {
     private float moveSpeed = 5.0f;
 
     public GameObject m_boughtItem;
-    private GameObject m_itemClone;
+    public GameObject m_itemClone;
 
     [SerializeField] private GameObject m_aimSprite;
     [SerializeField] private GameObject m_manager;
@@ -89,11 +89,14 @@ public class PlayerShoping : MonoBehaviour {
 
     public void PlaceItem()
     {
-        m_itemClone = null;
-        m_boughtItem = null;
-        m_noClone = true;
-        m_managerScript.m_playerPlacementCount += 1;
-        m_playerInputScript.m_isPlacing = false;
+        if (m_itemClone.transform.position.x > -5.5f)
+        {
+            m_itemClone = null;
+            m_boughtItem = null;
+            m_noClone = true;
+            m_managerScript.m_playerPlacementCount += 1;
+            m_playerInputScript.m_isPlacing = false;
+        }
     }
 
 

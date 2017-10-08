@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
 {
      public bool m_isInput = true;
     [HideInInspector] public bool m_isShop = false;
-    [HideInInspector] public bool m_isPlacing = false;
+     public bool m_isPlacing = false;
 
     [SerializeField] private GameObject m_manager;
 
@@ -30,11 +30,7 @@ public class PlayerInput : MonoBehaviour
 	
 	void Update () 
 	{
-        if(m_managerScript.m_activateItemPlacement)
-        {
-            m_isPlacing = true;
-            m_managerScript.m_activateItemPlacement = false;
-        }
+
 
         if (m_isInput)
         {
