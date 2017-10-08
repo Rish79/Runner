@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     public float timeToApex = 0.33f;
     public float wallSlideMaxSpeed = 2.5f;
 
+    [HideInInspector] public bool m_moveToStart = false;
+    [HideInInspector] public bool m_stopMove = false;
+
     private float gravity;
     private float maxJumpVelocity;
     private float minJumpVelocity;
@@ -20,12 +23,23 @@ public class Player : MonoBehaviour
     private float velocityXSmoothed;
 
     private PlayerController controller;
+    private PlayerInput m_playerInputScript;
+    private PlayerShoping m_playerShoppingScript;
     private Vector2 directionalInput;
     private SpriteRenderer playerSprite;
 
-	void Start ()
+    [HideInInspector] public Vector2 m_startPos;
+
+    private void Awake()
+    {
+        m_startPos = transform.position;
+    }
+
+    void Start ()
     {
         controller = GetComponent<PlayerController>();
+        m_playerShoppingScript = GetComponent<PlayerShoping>();
+        m_playerInputScript = GetComponent<PlayerInput>();
         playerSprite = GetComponent<SpriteRenderer>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
@@ -35,6 +49,17 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(m_moveToStart)
+        {
+            
+            
+            transform.position = m_startPos;
+            //gameObject.SetActive(false);
+            m_playerInputScript.m_isShop = true;
+            m_playerShoppingScript.m_activateAimSprite = true;
+            m_moveToStart = false;
+        }
+
         CalculateVelocity();
 
         if (transform.position.y >= 5.0f)
@@ -47,7 +72,10 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(transform.position.x, 4.9f, transform.position.z);
         }
 
-        controller.Move(velocity * Time.deltaTime, directionalInput);
+        if (!m_stopMove)
+        {
+            controller.Move(velocity * Time.deltaTime, directionalInput);
+        }
 
         if (controller.collisionInfo.above || controller.collisionInfo.below)
         {
@@ -107,6 +135,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    
     private void CalculateVelocity()
     {
         float targetVelocityX = directionalInput.x * moveSpeed;
@@ -114,4 +143,6 @@ public class Player : MonoBehaviour
                                     (controller.collisionInfo.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
     }
+
+   
 }
