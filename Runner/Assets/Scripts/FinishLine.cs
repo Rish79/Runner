@@ -12,10 +12,9 @@ public class FinishLine : MonoBehaviour {
     [SerializeField] private float m_pointSubtraction = 25f;
     private float m_tempPointAmount;
 
-    [SerializeField] private int m_playerFinishCount = 0;
+    private int m_playerFinishCount = 0;
 
     public List<GameObject> m_players;
-    public List<Vector2> m_playersPos;
 
     private bool m_roundEnded = false;
 
@@ -71,6 +70,9 @@ public class FinishLine : MonoBehaviour {
 
             if (m_roundEnded)
             {
+                m_tempCurrencyAmount = m_initCurrencyAmount;
+                m_tempPointAmount = m_initPointsAmount;
+
                 foreach (GameObject i in m_players)
                 {
                     i.GetComponent<Player>().m_moveToStart = true;
@@ -78,12 +80,8 @@ public class FinishLine : MonoBehaviour {
                 m_canvas.SetActive(true);
                 m_roundEnded = false;
             }
-        }
-    }
 
-    IEnumerator WaitToEndRound()
-    {
-        yield return new WaitForSeconds(2f);
-        Debug.Log("coroutine is running");
+            m_playerFinishCount = 0;
+        }
     }
 }

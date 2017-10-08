@@ -7,22 +7,35 @@ using System.Collections;
 [RequireComponent (typeof(Player))]
 public class PlayerInput : MonoBehaviour 
 {
-    [HideInInspector] public bool m_isInput = true;
+     public bool m_isInput = true;
     [HideInInspector] public bool m_isShop = false;
+    [HideInInspector] public bool m_isPlacing = false;
+
+    [SerializeField] private GameObject m_manager;
+
     public int playerId;
     private Player player;
     private PlayerShoping m_playerShopScript;
     private PlayerController playerController;
+    private Manager m_managerScript;
     private float distance = 0.5f;
 
     void Start () 
 	{
         player = GetComponent<Player>();
         m_playerShopScript = GetComponent<PlayerShoping>();
-	}
+        m_managerScript = m_manager.GetComponent<Manager>();
+
+    }
 	
 	void Update () 
 	{
+        if(m_managerScript.m_activateItemPlacement)
+        {
+            m_isPlacing = true;
+            m_managerScript.m_activateItemPlacement = false;
+        }
+
         if (m_isInput)
         {
             Vector2 directionalInput = new Vector2(Input.GetAxisRaw("MoveHorizontal" + playerId), Input.GetAxisRaw("MoveVertical" + playerId));
@@ -43,11 +56,19 @@ public class PlayerInput : MonoBehaviour
             Vector2 directionalInput = new Vector2(Input.GetAxisRaw("MoveHorizontal" + playerId), Input.GetAxisRaw("MoveVertical" + playerId));
             m_playerShopScript.SetDirectionalInput(directionalInput);
 
-            Debug.Log(Input.GetAxisRaw("MoveHorizontal" + playerId));
-
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump" + playerId))
             {
                 m_playerShopScript.SelectItem();
+            }
+        }
+        else if(m_isPlacing)
+        {
+            Vector2 directionalInput = new Vector2(Input.GetAxisRaw("MoveHorizontal" + playerId), Input.GetAxisRaw("MoveVertical" + playerId));
+            m_playerShopScript.SetDirectionalInput(directionalInput);
+
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump" + playerId))
+            {
+                m_playerShopScript.PlaceItem();
             }
         }
     }
@@ -60,8 +81,6 @@ public class PlayerInput : MonoBehaviour
 
     public void SetNoMovment()
     {
-        Debug.Log("called Func");
-
         if(Input.GetAxisRaw("MoveHorizontal" + playerId) != 0)
         {
             float horz = Input.GetAxisRaw("MoveHorizontal" + playerId);

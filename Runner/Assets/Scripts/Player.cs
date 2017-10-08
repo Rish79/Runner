@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public bool m_moveToStart = false;
     [HideInInspector] public bool m_stopMove = false;
+    [HideInInspector] public bool m_slow = false;
+    [HideInInspector] public bool m_speed = false;
 
     private float gravity;
     private float maxJumpVelocity;
@@ -51,8 +53,7 @@ public class Player : MonoBehaviour
     {
         if(m_moveToStart)
         {
-            
-            
+            Debug.Log("Move To Start");
             transform.position = m_startPos;
             //gameObject.SetActive(false);
             m_playerInputScript.m_isShop = true;
@@ -98,6 +99,15 @@ public class Player : MonoBehaviour
         else if(directionalInput.x < 0)
         {
             playerSprite.transform.localScale = new Vector3(-2, 2, 1);
+        }
+
+        if(m_slow)
+        {
+            velocity = new Vector3(velocity.x / 2f, velocity.y, velocity.x);
+        }
+        if (m_speed)
+        {
+            velocity = new Vector3(velocity.x * 1.2f, velocity.y, velocity.x);
         }
     }
 
