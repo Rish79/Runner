@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FinishLine : MonoBehaviour {
 
@@ -18,11 +19,14 @@ public class FinishLine : MonoBehaviour {
 
     private bool m_roundEnded = false;
 
+    [SerializeField] private Text m_playerWin;
+
     PlayerResource m_playerResScript;
     PlayerInput m_playerInputScript;
 
 
     [SerializeField] private GameObject m_canvas;
+    [SerializeField] private GameObject m_canvas3;
 
     private void Awake()
     {
@@ -67,6 +71,17 @@ public class FinishLine : MonoBehaviour {
         if (m_playerFinishCount >= 4)
         {
             m_roundEnded = true;
+
+            foreach (GameObject i in m_players)
+            {
+                if(i.GetComponent<PlayerResource>().m_playerPoints >= 500)
+                {
+                    PlayerResource winningPlayer = i.GetComponent<PlayerResource>();
+                    m_roundEnded = false;
+                    m_canvas3.SetActive(true);
+                    m_playerWin.text = "Player " + winningPlayer.m_playerNumber.ToString() + " " + "Wins!";
+                }
+            }
 
             if (m_roundEnded)
             {

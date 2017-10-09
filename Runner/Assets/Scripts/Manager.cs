@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour {
 
@@ -26,6 +27,11 @@ public class Manager : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
+        if(Input.GetKey(KeyCode.R))
+        {
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+        }
+
 	    if(m_playerShopCount >= 4)
         {
             //m_activateItemPlacement = true;

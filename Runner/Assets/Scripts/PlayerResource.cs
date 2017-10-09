@@ -8,7 +8,7 @@ public class PlayerResource : MonoBehaviour
     public float m_playerCurrency;
     public float m_playerPoints;
 	
-    [SerializeField] private int m_playerNumber;
+    public int m_playerNumber;
 
     [SerializeField] private Text m_playerCurrencyText;
     [SerializeField] private Text m_playerPointsText;
