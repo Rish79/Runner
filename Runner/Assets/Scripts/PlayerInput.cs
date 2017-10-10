@@ -7,6 +7,7 @@ using System.Collections;
 [RequireComponent (typeof(Player))]
 public class PlayerInput : MonoBehaviour 
 {
+
      public bool m_isInput = true;
     [HideInInspector] public bool m_isShop = false;
      public bool m_isPlacing = false;
@@ -20,21 +21,35 @@ public class PlayerInput : MonoBehaviour
     private Manager m_managerScript;
     private float distance = 0.5f;
 
+    private Animator m_playerAnim;
+
+
     void Start () 
 	{
         player = GetComponent<Player>();
         m_playerShopScript = GetComponent<PlayerShoping>();
         m_managerScript = m_manager.GetComponent<Manager>();
+        m_playerAnim = gameObject.GetComponent<Animator>();
 
     }
-	
-	void Update () 
+
+    void Update () 
 	{
 
 
         if (m_isInput)
         {
             Vector2 directionalInput = new Vector2(Input.GetAxisRaw("MoveHorizontal" + playerId), Input.GetAxisRaw("MoveVertical" + playerId));
+
+            if(directionalInput.x > 0.1f || directionalInput.x < -0.1f)
+            {
+                m_playerAnim.SetBool("isWalking", true);
+            }
+            else
+            {
+                m_playerAnim.SetBool("isWalking", false);
+
+            }
             player.SetDirectionalInput(directionalInput);
 
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump" + playerId))

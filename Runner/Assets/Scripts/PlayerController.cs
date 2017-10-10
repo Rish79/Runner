@@ -9,15 +9,20 @@ public class PlayerController : RaycastController
     [HideInInspector]
     public Vector2 playerInput;
 
+
+
     public override void Start()
     {
         base.Start();
         collisionInfo.faceDirection = 1;
+
     }
 
     public void Move(Vector2 moveAmount, bool standingOnPlatform)
     {
         Move(moveAmount, Vector2.zero, standingOnPlatform);
+       
+        
     }
 
     public void Move(Vector2 moveAmount, Vector2 input, bool standingOnPlatform = false)
@@ -36,6 +41,9 @@ public class PlayerController : RaycastController
         {
             collisionInfo.faceDirection = (int)Mathf.Sign(moveAmount.x);
         }
+
+
+
 
         HorizontalCollisions(ref moveAmount);
         
